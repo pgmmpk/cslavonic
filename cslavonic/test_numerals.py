@@ -46,6 +46,7 @@ class TestNumerals(unittest.TestCase):
         self.assertEquals(numeral_string(10002), '҂і в҃')
         self.assertEquals(numeral_string(10010), '҂і і҃')
         self.assertEquals(numeral_string(10100), '҂і р҃')
+        self.assertEquals(numeral_string(11000), '҂аі')
         self.assertEquals(numeral_string(11100), '҂аі р҃')
         self.assertEquals(numeral_string(10800), '҂і ѿ҃')
 
