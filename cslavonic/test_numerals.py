@@ -64,3 +64,20 @@ class TestNumerals(unittest.TestCase):
     
     def test_no_titlo(self):
         self.assertEquals(numeral_string(11100, add_titlo=False), '҂аі р')
+    
+    def test_order_of_teens(self):
+        self.assertEquals(numeral_string(111), 'ра҃і')
+        self.assertEquals(numeral_string(121), 'рк҃а')
+    
+    def test_800s(self):
+        self.assertEquals(numeral_string(800), 'ѿ҃')
+        self.assertEquals(numeral_string(820), 'ѿк҃')
+        self.assertEquals(numeral_string(1860), '҂аѿ҃ѯ')  # is this wrong?
+    
+    def test_other(self):
+        self.assertNotEquals(numeral_string(1010), numeral_string(11000))
+        
+        self.assertEquals(numeral_string(1010), '҂а҃і')
+        self.assertEquals(numeral_string(11000), '҂аі')
+        
+
