@@ -62,5 +62,5 @@ class TestNumerals(unittest.TestCase):
         self.assertEquals(numeral_string(123456789), '҂҂ркг унѕ ѱп҃ѳ')
         self.assertEquals(numeral_string(1234567890), '҂҂҂аслд фѯз ѿ҃ч')
     
-    def test_to_titlo(self):
+    def test_no_titlo(self):
         self.assertEquals(numeral_string(11100, add_titlo=False), '҂аі р')
