@@ -80,15 +80,12 @@ def _make_number(value, *, add_titlo=True):
     if add_titlo:
         if len(out) == 1:
             out.append(CU_TITLO)
-        elif len(out)  == 2:
-            if 800 < value < 900:
+        elif len(out) >= 2:
+            if len(out) > 2 and out[-2] ==' ':
+                out.append(CU_TITLO)
+            elif 800 < (value % 1000) < 9000:
                 out.append(CU_TITLO)
             else:
-                out.insert(1, CU_TITLO)
-        elif len(out) > 2:
-            if ' ' == out[-2]:
-                out.append(CU_TITLO);
-            else:
-                out.insert(len(out) - 1, CU_TITLO)
+                out.insert(len(out)-1, CU_TITLO)
     
     return out

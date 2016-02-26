@@ -60,7 +60,7 @@ class TestNumerals(unittest.TestCase):
         self.assertEquals(numeral_string(1234567), '҂҂аслд фѯ҃з')
         self.assertEquals(numeral_string(12345678), '҂҂ві тмє хѻ҃и')
         self.assertEquals(numeral_string(123456789), '҂҂ркг унѕ ѱп҃ѳ')
-        self.assertEquals(numeral_string(1234567890), '҂҂҂аслд фѯз ѿ҃ч')
+        self.assertEquals(numeral_string(1234567890), '҂҂҂аслд фѯз ѿч҃')
     
     def test_no_titlo(self):
         self.assertEquals(numeral_string(11100, add_titlo=False), '҂аі р')
@@ -72,7 +72,7 @@ class TestNumerals(unittest.TestCase):
     def test_800s(self):
         self.assertEquals(numeral_string(800), 'ѿ҃')
         self.assertEquals(numeral_string(820), 'ѿк҃')
-        self.assertEquals(numeral_string(1860), '҂аѿ҃ѯ')  # is this wrong?
+        self.assertEquals(numeral_string(1860), '҂аѿѯ҃')
     
     def test_other(self):
         self.assertNotEquals(numeral_string(1010), numeral_string(11000))
