@@ -30,7 +30,9 @@ TABLE = [
     ('\u045e', ['\u0443\u0306']),  # short u
     ('\u0476', ['\u0474\u030f']),  # IZHITSA with double grave
     ('\u0477', ['\u0475\u030f']),  # izhitsa with double grave
-    ('\u0479', ['\u1c82\u0443', '\u043e\u0443']),  # uk
+#    ('\u0478', ['\u041e\u0443']),  # UK
+#    ('\u0479', ['\u1c82\u0443', '\u043e\u0443']),  # uk
+    ('\u0479', ['\u1c82\u0443']),  # uk
 ]
 
 def mk_nfd(string):
@@ -65,9 +67,13 @@ def explode_nfd(string):
     if mtc is None:
         yield string
         return
+    
+    prefix     = string[:mtc.start()]
+    explodable = mtc.group()
+    rest       = string[mtc.end():]
 
-    for suffix in explode_nfd(string[mtc.end():]):
-        yield string[:mtc.end()] + suffix
+    for suffix in explode_nfd(rest):
+        yield prefix + explodable + suffix
         
-        for expansion in _EXPLODE_MAP[mtc.group()]:
-            yield string[:mtc.start()] + expansion + suffix
+        for expansion in _EXPLODE_MAP[explodable]:
+            yield prefix + expansion + suffix

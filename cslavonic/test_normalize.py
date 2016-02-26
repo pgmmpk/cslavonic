@@ -13,4 +13,4 @@ class TestNormalize(unittest.TestCase):
         
         nset = set(explode_nfd('ᲂу҆спе́нїю'))
         
-        self.assertEquals(nset, {})
+        self.assertEquals(nset, {'ѹ҆спе́нїю', 'ѹ҆спе́нїю', '\u1c82у҆спе́нїю', '\u1c82у҆спе́нїю'})
