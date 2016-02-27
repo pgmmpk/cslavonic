@@ -182,13 +182,8 @@ def numeral_parse(string):
             if CU_THOUSAND in val:
                 # have more marks
                 # then marks must be on every odd position
-                for i in range(len(val)):
-                    if i % 2 == 1:
-                        if val[i] != CU_THOUSAND:
-                            raise ValueError('invalid number: ' + string)
-                    else:
-                        if val[i] == CU_THOUSAND:
-                            raise ValueError('invalid number: ' + string)
+                if not _ensure_thousand_at_every_position(val):
+                    raise ValueError('invalid number: ' + string)
                 val = re.sub(CU_THOUSAND, '', val)
                 
                 value = _parse_small_number(val) * 1000
@@ -206,6 +201,12 @@ def numeral_parse(string):
                 raise ValueError('invalid number: ' + string)
             multiplier[i] = 1000**len(mtc.group(1))
             groups[i] = groups[i][mtc.end():]
+            
+            if len(mtc.group(1)) == 1:
+                if CU_THOUSAND in groups[i]:
+                    if not _ensure_thousand_at_every_position(groups[i]):
+                        raise ValueError('invalid number: ' + string)
+                    groups[i] = re.sub(CU_THOUSAND, '', groups[i])
         
         if len(set(multiplier)) != len(multiplier):
             raise ValueError('invalid number: ' + string)
@@ -230,3 +231,14 @@ def _parse_small_number(val):
         value += CU_NUMBER_DICT[c]
     
     return value
+
+def _ensure_thousand_at_every_position(val):
+    for i in range(len(val)):
+        if i % 2 == 1:
+            if val[i] != CU_THOUSAND:
+                return False
+        else:
+            if val[i] == CU_THOUSAND:
+                return False
+    return True
+    
