@@ -5,7 +5,8 @@ Support for Cyrillic Numerals
 See UTN 41 for implementation information
 http://www.unicode.org/notes/tn41/
 
-This is a direct port of C++ OpenOffice code by Alexander Andreev: https://gerrit.libreoffice.org/#/c/20013/
+Code was based on C++ OpenOffice code by Aleksandr Andreev: https://gerrit.libreoffice.org/#/c/20013/
+but eventually rewritten to better matched desired behavior on large numbers 
 
 @author: mike
 '''
