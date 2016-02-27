@@ -79,5 +79,7 @@ class TestNumerals(unittest.TestCase):
         
         self.assertEquals(numeral_string(1010), '҂а҃і')
         self.assertEquals(numeral_string(11000), '҂а҃҂і')
-        
+    
+    def test_crazy(self):
+        self.assertEquals(numeral_string(1234567890123), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г')
 
