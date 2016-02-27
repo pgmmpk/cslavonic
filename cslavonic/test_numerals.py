@@ -4,7 +4,7 @@ Created on Feb 25, 2016
 @author: mike
 '''
 import unittest
-from cslavonic.numerals import numeral_string
+from cslavonic.numerals import numeral_string, numeral_parse
 
 
 class TestNumerals(unittest.TestCase):
@@ -83,3 +83,76 @@ class TestNumerals(unittest.TestCase):
     def test_crazy(self):
         self.assertEquals(numeral_string(1234567890123), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г')
 
+    def test_parse_0_9(self):
+        self.assertEquals(numeral_parse('0҃'), 0)
+        self.assertEquals(numeral_parse('а҃'), 1)
+        self.assertEquals(numeral_parse('в҃'), 2)
+        self.assertEquals(numeral_parse('г҃'), 3)
+        self.assertEquals(numeral_parse('д҃'), 4)
+        self.assertEquals(numeral_parse('є҃'), 5)
+        self.assertEquals(numeral_parse('ѕ҃'), 6)
+        self.assertEquals(numeral_parse('з҃'), 7)
+        self.assertEquals(numeral_parse('и҃'), 8)
+        self.assertEquals(numeral_parse('ѳ҃'), 9)
+
+    def test_parse_10_20(self):
+        self.assertEquals(numeral_parse('і҃'), 10)
+        self.assertEquals(numeral_parse('а҃і'), 11)
+        self.assertEquals(numeral_parse('в҃і'), 12)
+        self.assertEquals(numeral_parse('г҃і'), 13)
+        self.assertEquals(numeral_parse('д҃і'), 14)
+        self.assertEquals(numeral_parse('є҃і'), 15)
+        self.assertEquals(numeral_parse('ѕ҃і'), 16)
+        self.assertEquals(numeral_parse('з҃і'), 17)
+        self.assertEquals(numeral_parse('и҃і'), 18)
+        self.assertEquals(numeral_parse('ѳ҃і'), 19)
+    
+    def test_parse_1000(self):
+        self.assertEquals(numeral_parse('҂а҃'), 1000)
+        self.assertEquals(numeral_parse('҂а҃а'), 1001)
+        self.assertEquals(numeral_parse('҂а҃і'), 1010)
+        self.assertEquals(numeral_parse('҂а҃р'), 1100)
+        self.assertEquals(numeral_parse('҂ар҃і'), 1110)
+        self.assertEquals(numeral_parse('҂а҃ѿ'), 1800)
+
+    def test_parse_10000(self):
+        self.assertEquals(numeral_parse('҂і҃'), 10000)
+        self.assertEquals(numeral_parse('҂і҃ в҃'), 10002)
+        self.assertEquals(numeral_parse('҂і҃ і҃'), 10010)
+        self.assertEquals(numeral_parse('҂і҃ р҃'), 10100)
+        self.assertEquals(numeral_parse('҂а҃҂і'), 11000)
+        self.assertEquals(numeral_parse('҂а҃і р҃'), 11100)
+        self.assertEquals(numeral_parse('҂і҃ ѿ҃'), 10800)
+
+    def test_parse_misc(self):
+        self.assertEquals(numeral_parse('а҃'), 1)
+        self.assertEquals(numeral_parse('в҃і'), 12)
+        self.assertEquals(numeral_parse('рк҃г'), 123)
+        self.assertEquals(numeral_parse('҂асл҃д'), 1234)
+        self.assertEquals(numeral_parse('҂в҃і тм҃є'), 12345)
+        self.assertEquals(numeral_parse('҂рк҃г ун҃ѕ'), 123456)
+        self.assertEquals(numeral_parse('҂҂а҃ ҂сл҃д фѯ҃з'), 1234567)
+        self.assertEquals(numeral_parse('҂҂в҃і ҂тм҃є хѻ҃и'), 12345678)
+        self.assertEquals(numeral_parse('҂҂рк҃г ҂ун҃ѕ ѱп҃ѳ'), 123456789)
+        self.assertEquals(numeral_parse('҂҂҂а҃ ҂҂сл҃д ҂фѯ҃з ѿч҃'), 1234567890)
+
+    def test_parse_no_titlo(self):
+        self.assertEquals(numeral_parse('҂аі р'), 11100)
+    
+    def test_parse_order_of_teens(self):
+        self.assertEquals(numeral_parse('ра҃і'), 111)
+        self.assertEquals(numeral_parse('рк҃а'), 121)
+    
+    def test_parse_800s(self):
+        self.assertEquals(numeral_parse('ѿ҃'), 800)
+        self.assertEquals(numeral_parse('ѿк҃'), 820)
+        self.assertEquals(numeral_parse('҂аѿѯ҃'), 1860)
+    
+    def test_parse_other(self):
+        self.assertNotEquals(numeral_parse('҂а҃і'), numeral_parse('҂а҃҂і'))
+        
+        self.assertEquals(numeral_parse('҂а҃і'), 1010)
+        self.assertEquals(numeral_parse('҂а҃҂і'), 11000)
+    
+    def test_parse_crazy(self):
+        self.assertEquals(numeral_parse('҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г'), 1234567890123)

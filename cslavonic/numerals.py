@@ -10,13 +10,14 @@ but eventually rewritten to better matched desired behavior on large numbers
 
 @author: mike
 '''
+import re
 
 CU_THOUSAND = '\u0482'
 CU_TITLO    = '\u0483'
 CU_TEN      = '\u0456'
 CU_800      = '\u047f'
 
-CyrillicNumberCharArray = [
+CU_NUMBER_ARRAY = [
     ('\u0446', 900),
     ('\u047f', 800),
     ('\u0471', 700),
@@ -45,6 +46,7 @@ CyrillicNumberCharArray = [
     ('\u0432',   2),
     ('\u0430',   1)
 ]
+CU_NUMBER_DICT = dict(CU_NUMBER_ARRAY)
 
 def numeral_string(value, *, add_titlo=True):
     
@@ -97,7 +99,7 @@ def _make_small_number(value):
     assert 0 <= value < 1000, value
 
     out = []
-    for c,x in CyrillicNumberCharArray:
+    for c,x in CU_NUMBER_ARRAY:
         if value <= 0:
             break
         
@@ -144,3 +146,87 @@ def _insert_titlo(group):
     else:
         group.insert(-1, CU_TITLO)
 
+
+def numeral_parse(string):
+    minus = False
+    
+    s = string
+    if string.startswith('-'):
+        minus = True
+        s = s[1:]
+    
+    s = re.sub(CU_TITLO, '', s)
+    
+    if not s:
+        raise ValueError('invalid number: ' + string)
+    
+    if s == '0':
+        return 0
+    
+    groups = s.split()
+    if len(groups) == 1:
+        val = groups[0]
+
+        multiplier = 1
+        mtc = re.match('(' + CU_THOUSAND + r'{1,})', val)
+        if mtc:
+            multiplier = 1000 ** len(mtc.group(1))
+        
+        if multiplier == 1:
+            value = _parse_small_number(val)
+        
+        elif multiplier == 1000:
+            # number between 1000 and 10000
+            val = val[1:]
+            
+            if CU_THOUSAND in val:
+                # have more marks
+                # then marks must be on every odd position
+                for i in range(len(val)):
+                    if i % 2 == 1:
+                        if val[i] != CU_THOUSAND:
+                            raise ValueError('invalid number: ' + string)
+                    else:
+                        if val[i] == CU_THOUSAND:
+                            raise ValueError('invalid number: ' + string)
+                val = re.sub(CU_THOUSAND, '', val)
+                
+                value = _parse_small_number(val) * 1000
+            else:
+                value = _parse_small_number(val[0]) * 1000 + _parse_small_number(val[1:])
+        else:
+            val = val[mtc.end():]
+            value = multiplier * _parse_small_number(val)
+    else:
+        # easy case, make sure we have desired number of thousand marks at every position
+        multiplier = [1] * len(groups)
+        for i in range(len(groups)):
+            mtc = re.match('(' + CU_THOUSAND + r'*)', groups[i])
+            if not mtc:
+                raise ValueError('invalid number: ' + string)
+            multiplier[i] = 1000**len(mtc.group(1))
+            groups[i] = groups[i][mtc.end():]
+        
+        if len(set(multiplier)) != len(multiplier):
+            raise ValueError('invalid number: ' + string)
+        if sorted(multiplier, reverse=True) != multiplier:
+            raise ValueError('invalid number: ' + string)
+        
+        value = 0
+        for m,g in zip(multiplier, groups):
+            value += m * _parse_small_number(g)
+        
+    return -value if minus else value
+
+def _parse_small_number(val):
+    
+    if len(val) != len(set(val)):
+        raise ValueError('invalid number: ' + val)
+
+    value = 0
+    for c in val:
+        if c not in CU_NUMBER_DICT:
+            raise ValueError('invalid number: ' + val)
+        value += CU_NUMBER_DICT[c]
+    
+    return value
