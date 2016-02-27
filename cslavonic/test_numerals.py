@@ -10,7 +10,7 @@ from cslavonic.numerals import numeral_string
 class TestNumerals(unittest.TestCase):
     
     def test_0_9(self):
-        self.assertEquals(numeral_string(0), '')
+        self.assertEquals(numeral_string(0), '0҃')
         self.assertEquals(numeral_string(1), 'а҃')
         self.assertEquals(numeral_string(2), 'в҃')
         self.assertEquals(numeral_string(3), 'г҃')
@@ -34,7 +34,7 @@ class TestNumerals(unittest.TestCase):
         self.assertEquals(numeral_string(19), 'ѳ҃і')
     
     def test_1000(self):
-        self.assertEquals(numeral_string(1000), '҂а')
+        self.assertEquals(numeral_string(1000), '҂а҃')
         self.assertEquals(numeral_string(1001), '҂а҃а')
         self.assertEquals(numeral_string(1010), '҂а҃і')
         self.assertEquals(numeral_string(1100), '҂а҃р')
@@ -42,25 +42,25 @@ class TestNumerals(unittest.TestCase):
         self.assertEquals(numeral_string(1800), '҂а҃ѿ')
 
     def test_10000(self):
-        self.assertEquals(numeral_string(10000), '҂і')
-        self.assertEquals(numeral_string(10002), '҂і в҃')
-        self.assertEquals(numeral_string(10010), '҂і і҃')
-        self.assertEquals(numeral_string(10100), '҂і р҃')
-        self.assertEquals(numeral_string(11000), '҂аі')
-        self.assertEquals(numeral_string(11100), '҂аі р҃')
-        self.assertEquals(numeral_string(10800), '҂і ѿ҃')
+        self.assertEquals(numeral_string(10000), '҂і҃')
+        self.assertEquals(numeral_string(10002), '҂і҃ в҃')
+        self.assertEquals(numeral_string(10010), '҂і҃ і҃')
+        self.assertEquals(numeral_string(10100), '҂і҃ р҃')
+        self.assertEquals(numeral_string(11000), '҂а҃҂і')
+        self.assertEquals(numeral_string(11100), '҂а҃і р҃')
+        self.assertEquals(numeral_string(10800), '҂і҃ ѿ҃')
 
     def test_misc(self):
         self.assertEquals(numeral_string(1), 'а҃')
         self.assertEquals(numeral_string(12), 'в҃і')
         self.assertEquals(numeral_string(123), 'рк҃г')
         self.assertEquals(numeral_string(1234), '҂асл҃д')
-        self.assertEquals(numeral_string(12345), '҂ві тм҃є')
-        self.assertEquals(numeral_string(123456), '҂ркг ун҃ѕ')
-        self.assertEquals(numeral_string(1234567), '҂҂аслд фѯ҃з')
-        self.assertEquals(numeral_string(12345678), '҂҂ві тмє хѻ҃и')
-        self.assertEquals(numeral_string(123456789), '҂҂ркг унѕ ѱп҃ѳ')
-        self.assertEquals(numeral_string(1234567890), '҂҂҂аслд фѯз ѿч҃')
+        self.assertEquals(numeral_string(12345), '҂в҃і тм҃є')
+        self.assertEquals(numeral_string(123456), '҂рк҃г ун҃ѕ')
+        self.assertEquals(numeral_string(1234567), '҂҂а҃ ҂сл҃д фѯ҃з')
+        self.assertEquals(numeral_string(12345678), '҂҂в҃і ҂тм҃є хѻ҃и')
+        self.assertEquals(numeral_string(123456789), '҂҂рк҃г ҂ун҃ѕ ѱп҃ѳ')
+        self.assertEquals(numeral_string(1234567890), '҂҂҂а҃ ҂҂сл҃д ҂фѯ҃з ѿч҃')
     
     def test_no_titlo(self):
         self.assertEquals(numeral_string(11100, add_titlo=False), '҂аі р')
@@ -78,6 +78,6 @@ class TestNumerals(unittest.TestCase):
         self.assertNotEquals(numeral_string(1010), numeral_string(11000))
         
         self.assertEquals(numeral_string(1010), '҂а҃і')
-        self.assertEquals(numeral_string(11000), '҂аі')
+        self.assertEquals(numeral_string(11000), '҂а҃҂і')
         
 

@@ -13,6 +13,7 @@ This is a direct port of C++ OpenOffice code by Alexander Andreev: https://gerri
 CU_THOUSAND = '\u0482'
 CU_TITLO    = '\u0483'
 CU_TEN      = '\u0456'
+CU_800      = '\u047f'
 
 CyrillicNumberCharArray = [
     ('\u0446', 900),
@@ -45,47 +46,100 @@ CyrillicNumberCharArray = [
 ]
 
 def numeral_string(value, *, add_titlo=True):
-    return ''.join(_make_number(value, add_titlo=add_titlo))
+    
+    if value < 0:
+        return '-' + numeral_string(-value, add_titlo=add_titlo)
+    
+    if value == 0:
+        if add_titlo:
+            return '0' + CU_TITLO
+        else:
+            return '0'
+    
+    groups = _make_groups_of_thousands(value)
 
-
-def _make_number(value, *, add_titlo=True):
+    if value < 10000:
+        group = groups[0]
+        if value >= 1000:
+            group = groups[1] + groups[0]
+        if add_titlo:
+            _insert_titlo(group)
+        if value >= 1000:
+            group.insert(0, CU_THOUSAND)
+        return ''.join(group)
+    
+    if add_titlo:
+        for group in groups:
+            _insert_titlo(group)
+    
+    if not groups[0]:
+        # potential ambiguity - lets insert CU_THOUSAND before each digit in groups[1]
+        _insert_thousand_before_each_numeral(groups[1])
+    
     out = []
+    while groups:
+        group = groups.pop()
+        if group:
+            group = [CU_THOUSAND] * len(groups) + group
+            out.append(''.join(group))
     
-    num = value % 1000
+    return ' '.join(out)
+
+def _insert_thousand_before_each_numeral(group):
+    for i in reversed(range(1, len(group))):
+        if group[i] != CU_TITLO:
+            group.insert(i, CU_THOUSAND)
     
-    if value >= 1000:
-        out.append(CU_THOUSAND)
-        out.extend(_make_number(value // 1000, add_titlo=False))
-        
-        if value >= 10000 and ((value - 10000) % 1000) != 0:
-            out.append(' ')
+def _make_small_number(value):
+    ''' generates array of characters representing small Church Slavonic
+        number. No titlo.'''
+    assert 0 <= value < 1000, value
 
-        if value % 1000 == 0:
-            add_titlo = False
-
+    out = []
     for c,x in CyrillicNumberCharArray:
-        if num <= 0:
+        if value <= 0:
             break
         
-        if 10 < num < 20:
-            num -= 10
-            out.extend(_make_number(num, add_titlo=False))
+        if 10 < value < 20:
+            out.extend(_make_small_number(value - 10))
             out.append(CU_TEN)
             break
 
-        if x <= num:
+        if x <= value:
             out.append(c)
-            num -= x
-
-    if add_titlo:
-        if len(out) == 1:
-            out.append(CU_TITLO)
-        elif len(out) >= 2:
-            if len(out) > 2 and out[-2] ==' ':
-                out.append(CU_TITLO)
-            elif 800 < (value % 1000) < 9000:
-                out.append(CU_TITLO)
-            else:
-                out.insert(len(out)-1, CU_TITLO)
+            value -= x
     
     return out
+
+
+def _make_groups_of_thousands(value):
+    '''returns groups of thousands as a list (in reverse order):
+       Decimal  123456789 is split like this:
+       123 456 789 then reversed to 789 456 123
+       and finally each group is represented as Church Slavonic number:
+       [ [789], [456], [123] ]
+       reversal of order is just for technical convenience
+    '''
+    assert value > 0
+    
+    groups = []
+
+    num = value
+    while num > 0:
+        groups.append(_make_small_number(num % 1000))
+        num //= 1000
+
+    return groups
+
+
+def _insert_titlo(group):
+
+    if len(group) == 0:
+        return
+
+    elif len(group) == 1 or group[-2] == CU_800:
+        group.append(CU_TITLO)
+
+    else:
+        group.insert(-1, CU_TITLO)
+
