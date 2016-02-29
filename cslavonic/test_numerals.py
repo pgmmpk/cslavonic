@@ -1,11 +1,12 @@
+# coding: utf-8
 '''
 Created on Feb 25, 2016
 
 @author: mike
 '''
 import unittest
-from cslavonic.numerals import numeral_string, numeral_parse
 import random
+from cslavonic.numerals import numeral_string, numeral_parse
 
 TO_TEST = [
     (0, '0҃'),
@@ -66,8 +67,8 @@ TO_TEST = [
 class TestNumerals(unittest.TestCase):
     
     def assert_good(self, num, string):
-        self.assertEquals(numeral_string(num), string)
-        self.assertEquals(numeral_parse(string), num)
+        self.assertEqual(numeral_string(num), string)
+        self.assertEqual(numeral_parse(string), num)
 
     def test_parser_and_formatter(self):
         
@@ -75,33 +76,37 @@ class TestNumerals(unittest.TestCase):
             self.assert_good(num, string)
 
     def test_no_titlo(self):
-        self.assertEquals(numeral_string(11100, add_titlo=False), '҂аі р')
+        self.assertEqual(numeral_string(11100, add_titlo=False), '҂аі р')
     
     def test_other(self):
-        self.assertNotEquals(numeral_string(1010), numeral_string(11000))
+        self.assertNotEqual(numeral_string(1010), numeral_string(11000))
         
-        self.assertEquals(numeral_string(1010), '҂а҃і')
-        self.assertEquals(numeral_string(11000), '҂а҃҂і')
+        self.assertEqual(numeral_string(1010), '҂а҃і')
+        self.assertEqual(numeral_string(11000), '҂а҃҂і')
     
     def test_crazy(self):
-        self.assertEquals(numeral_string(1234567890123), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г')
+        self.assertEqual(numeral_string(1234567890123), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г')
 
     def test_negative(self):
-        self.assertEquals(numeral_string(-1010), '-҂а҃і')
+        self.assertEqual(numeral_string(-1010), '-҂а҃і')
     
     def test_all_upto_10000(self):
         
         for i in range(10000):
             j = numeral_parse(numeral_string(i))
-            self.assertEquals(i, j)
+            self.assertEqual(i, j)
             j = numeral_parse(numeral_string(i, add_titlo=False))
-            self.assertEquals(i, j)
+            self.assertEqual(i, j)
 
     def test_random(self):
 
         for _ in range(10000):
             i = random.randint(10000, 10000000)
             j = numeral_parse(numeral_string(i))
-            self.assertEquals(i, j)
+            self.assertEqual(i, j)
             j = numeral_parse(numeral_string(i, add_titlo=False))
-            self.assertEquals(i, j)
+            self.assertEqual(i, j)
+
+
+if __name__ == '__main__':
+    unittest.main()

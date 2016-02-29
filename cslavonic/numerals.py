@@ -1,3 +1,4 @@
+# coding: utf-8
 '''
 Created on Feb 25, 2016
 
@@ -49,7 +50,7 @@ CU_NUMBER_ARRAY = [
 CU_NUMBER_DICT = dict(CU_NUMBER_ARRAY)
 CU_DIGIT_DICT = dict((a,b) for b,a in CU_NUMBER_ARRAY)
 
-def numeral_string(value, *, add_titlo=True):
+def numeral_string(value, add_titlo=True):
     
     if value < 0:
         return '-' + numeral_string(-value, add_titlo=add_titlo)

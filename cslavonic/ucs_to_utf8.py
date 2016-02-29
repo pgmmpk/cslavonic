@@ -20,7 +20,7 @@ def main(args):
 
     return 0
 
-parser = argparse.ArgumentParser(description='Converts file from UCS (or any other input incoding) to utf-8')
+parser = argparse.ArgumentParser(description='Converts file from UCS (or any other input encoding) to utf-8')
 parser.add_argument('-i', '--input', default=None, help='File to decode. If not set, reads STDIN')
 parser.add_argument('-e', '--encoding', default='UCS', help='Input file encoding. Default is UCS')
 parser.add_argument('-o', '--output', default=None, help='File to create. If not set, writes to STDOUT.')
