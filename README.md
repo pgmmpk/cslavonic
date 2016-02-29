@@ -1,4 +1,6 @@
 # cslavonic
+[![Build Status](https://travis-ci.org/pgmmpk/cslavonic.svg?branch=master)](https://travis-ci.org/pgmmpk/cslavonic)
+
 Utilities to work with [Church Slavonic language](https://en.wikipedia.org/wiki/Church_Slavonic_language)
 
 * ucs_to_utf8 re-encodes text from legacy UCS encoding to Unicode utf-8
