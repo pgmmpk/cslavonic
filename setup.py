@@ -6,12 +6,12 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='cslavonic',
-    version='0.2.2',
+    version='0.2.3',
     
     description='Utilities for working with Church Slavonic language',
     
     url='https://github.com/pgmmpk/cslavonic',
-    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.2.2',
+    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.2.3',
     author='Mike Kroutikov',
     author_email='pgmmpk@gmail.com',
 
