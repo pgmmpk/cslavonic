@@ -47,6 +47,7 @@ CU_NUMBER_ARRAY = [
     ('\u0430',   1)
 ]
 CU_NUMBER_DICT = dict(CU_NUMBER_ARRAY)
+CU_DIGIT_DICT = dict((a,b) for b,a in CU_NUMBER_ARRAY)
 
 def numeral_string(value, *, add_titlo=True):
     
@@ -75,7 +76,7 @@ def numeral_string(value, *, add_titlo=True):
         for group in groups:
             _insert_titlo(group)
     
-    if not groups[0]:
+    if not groups[0]:  # same as if (value % 1000) == 0
         # potential ambiguity - lets insert CU_THOUSAND before each digit in groups[1]
         _insert_thousand_before_each_numeral(groups[1])
     
@@ -97,21 +98,26 @@ def _make_small_number(value):
     ''' generates array of characters representing small Church Slavonic
         number. No titlo.'''
     assert 0 <= value < 1000, value
-
+    
     out = []
-    for c,x in CU_NUMBER_ARRAY:
-        if value <= 0:
-            break
-        
-        if 10 < value < 20:
+    if value >= 100:
+        z = (value // 100) * 100
+        out.append(CU_DIGIT_DICT[z])
+        value -= z
+    
+    if value > 10:
+        if value < 20:
             out.extend(_make_small_number(value - 10))
             out.append(CU_TEN)
-            break
-
-        if x <= value:
-            out.append(c)
-            value -= x
+            value = 0
+        else:
+            z = (value // 10) * 10
+            out.append(CU_DIGIT_DICT[z])
+            value -= z
     
+    if value > 0:
+        out.extend(CU_DIGIT_DICT[value])
+
     return out
 
 
