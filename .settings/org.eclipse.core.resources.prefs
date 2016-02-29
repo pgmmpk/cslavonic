@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
-encoding//cslavonic/codechart.py=utf-8
-encoding//cslavonic/fix_uk.py=utf-8
+encoding//cslavonic/cu_codechart.py=utf-8
+encoding//cslavonic/cu_normalize.py=utf-8
 encoding//cslavonic/normalize.py=utf-8
 encoding//cslavonic/numerals.py=utf-8
 encoding//cslavonic/test_normalize.py=utf-8

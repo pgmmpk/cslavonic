@@ -6,12 +6,12 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='cslavonic',
-    version='0.2.3',
+    version='0.3.0',
     
     description='Utilities for working with Church Slavonic language',
     
     url='https://github.com/pgmmpk/cslavonic',
-    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.2.3',
+    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.3.0',
     author='Mike Kroutikov',
     author_email='pgmmpk@gmail.com',
 
@@ -37,9 +37,9 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'cu_codechart=cslavonic.codechart',
-            'cu_normalize=cslavonic.fix_uk',
-            'cu_reencode=cslavonic.ucs_to_utf8',
+            'cu_codechart=cslavonic.cu_codechart:main',
+            'cu_normalize=cslavonic.cu_normalize:main',
+            'cu_reencode=cslavonic.cu_reencode:main',
         ],
     },
 )

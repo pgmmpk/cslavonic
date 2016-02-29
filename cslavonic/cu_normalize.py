@@ -77,33 +77,37 @@ def main_hyph(args):
     return 0
 
 
-parser = argparse.ArgumentParser(description='Utilities to deal with "uk" letter in its expanded or ligature form. Use "explain" command to get more information.')
-sub = parser.add_subparsers(help='Command', dest='cmd')
-
-parser_explain = sub.add_parser('explain', help='Prints explanation')
-
-parser_ligature = sub.add_parser('ligature', help='Collapse all "sharp o"+"u" sequences into a single "uk" ligature symbol')
-parser_ligature.add_argument('input', help='Input file')
-parser_ligature.add_argument('output', help='Output file')
-
-parser_unligature = sub.add_parser('unligature', help='Expand all "uk" ligatures into a combination of "sharp o" and "u" characters')
-parser_unligature.add_argument('input', help='Input file')
-parser_unligature.add_argument('output', help='Output file')
-
-parser_hyph = sub.add_parser('hyph', help='Makes TeX hyphenation patterns file compatible with inputs that use expanded or collapsed version of "uk" by repeating each pattern that contains "uk" in ech variant')
-parser_hyph.add_argument('input', help='Input file')
-parser_hyph.add_argument('output', help='Output file')
-
-args = parser.parse_args()
-
-if args.cmd == 'explain':
-    parser.exit(main_explain(args))
-elif args.cmd == 'ligature':
-    parser.exit(main_ligature(args))
-elif args.cmd == 'unligature':
-    parser.exit(main_unligature(args))
-elif args.cmd == 'hyph':
-    parser.exit(main_hyph(args))
-else:
-    parser.error('Missing or invalid command')
+def main():
+    parser = argparse.ArgumentParser(description='Utilities to deal with "uk" letter in its expanded or ligature form. Use "explain" command to get more information.')
+    sub = parser.add_subparsers(help='Command', dest='cmd')
     
+    parser_explain = sub.add_parser('explain', help='Prints explanation')
+    
+    parser_ligature = sub.add_parser('ligature', help='Collapse all "sharp o"+"u" sequences into a single "uk" ligature symbol')
+    parser_ligature.add_argument('input', help='Input file')
+    parser_ligature.add_argument('output', help='Output file')
+    
+    parser_unligature = sub.add_parser('unligature', help='Expand all "uk" ligatures into a combination of "sharp o" and "u" characters')
+    parser_unligature.add_argument('input', help='Input file')
+    parser_unligature.add_argument('output', help='Output file')
+    
+    parser_hyph = sub.add_parser('hyph', help='Makes TeX hyphenation patterns file compatible with inputs that use expanded or collapsed version of "uk" by repeating each pattern that contains "uk" in ech variant')
+    parser_hyph.add_argument('input', help='Input file')
+    parser_hyph.add_argument('output', help='Output file')
+    
+    args = parser.parse_args()
+    
+    if args.cmd == 'explain':
+        parser.exit(main_explain(args))
+    elif args.cmd == 'ligature':
+        parser.exit(main_ligature(args))
+    elif args.cmd == 'unligature':
+        parser.exit(main_unligature(args))
+    elif args.cmd == 'hyph':
+        parser.exit(main_hyph(args))
+    else:
+        parser.error('Missing or invalid command')
+        
+
+if __name__ == '__main__':
+    main()
