@@ -16,6 +16,7 @@ setup(
     long_description=long_description,
     
     url='https://github.com/pgmmpk/cslavonic',
+    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.2.0',
     author='Mike Kroutikov',
     author_email='pgmmpk@gmail.com',
 

@@ -7,7 +7,7 @@ See UTN 41 for implementation information
 http://www.unicode.org/notes/tn41/
 
 Code was based on C++ OpenOffice code by Aleksandr Andreev: https://gerrit.libreoffice.org/#/c/20013/
-but eventually rewritten to better matched desired behavior on large numbers 
+but eventually rewritten to better match the desired behavior for large numbers 
 
 @author: mike
 '''
