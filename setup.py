@@ -1,22 +1,17 @@
 from setuptools import setup
 from os import path
-import codecs
+
 
 here = path.abspath(path.dirname(__file__))
 
-# Get the long description from the README file
-with codecs.open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
-
 setup(
     name='cslavonic',
-    version='0.2.1',
+    version='0.2.2',
     
     description='Utilities for working with Church Slavonic language',
-    long_description=long_description,
     
     url='https://github.com/pgmmpk/cslavonic',
-    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.2.1',
+    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.2.2',
     author='Mike Kroutikov',
     author_email='pgmmpk@gmail.com',
 
