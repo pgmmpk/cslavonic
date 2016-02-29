@@ -11,10 +11,11 @@ with codecs.open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='cslavonic',
     version='0.2.0',
+    
     description='Utilities for working with Church Slavonic language',
     long_description=long_description,
+    
     url='https://github.com/pgmmpk/cslavonic',
-
     author='Mike Kroutikov',
     author_email='pgmmpk@gmail.com',
 
@@ -22,10 +23,13 @@ setup(
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        'Development Status :: 3 - Beta',
-
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Education',
+        'Intended Audience :: Religion',
+        'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
-
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
     ],
 
@@ -37,9 +41,9 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'codechart=cslavonic.codechart',
-            'fix_uk=cslavonic.fix_uk',
-            'ucs_to_utf8=cslavonic.ucs_to_utf8',
+            'cu_codechart=cslavonic.codechart',
+            'cu_normalize=cslavonic.fix_uk',
+            'cu_reencode=cslavonic.ucs_to_utf8',
         ],
     },
 )
