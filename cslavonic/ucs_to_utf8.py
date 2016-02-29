@@ -4,6 +4,7 @@ Created on Feb 4, 2016
 
 @author: mike
 '''
+from __future__ import print_function, unicode_literals
 import argparse
 import codecs
 from cslavonic import ucs_codec

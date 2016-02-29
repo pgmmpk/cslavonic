@@ -4,6 +4,7 @@ Created on Feb 25, 2016
 
 @author: mike
 '''
+from __future__ import print_function, unicode_literals
 import unittest
 import random
 from cslavonic.numerals import numeral_string, numeral_parse

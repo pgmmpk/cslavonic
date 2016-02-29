@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 # coding: utf-8
 # adapted from https://github.com/typiconman/fonts-cu/blob/master/codechart.pl
+from __future__ import print_function, unicode_literals
 import collections
 import codecs
 import argparse

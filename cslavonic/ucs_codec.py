@@ -8,6 +8,7 @@ Created on Feb 4, 2016
 
 @author: mike
 '''
+from __future__ import print_function, unicode_literals
 import codecs
 from cslavonic.ucs_decode import ucs_encode, ucs_decode
 

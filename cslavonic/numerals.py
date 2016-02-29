@@ -11,6 +11,7 @@ but eventually rewritten to better matched desired behavior on large numbers
 
 @author: mike
 '''
+from __future__ import print_function, unicode_literals
 import re
 
 CU_THOUSAND = '\u0482'

@@ -5,6 +5,7 @@ Decoding tables taken from https://github.com/typiconman/Perl-Lingua-CU
 
 @author: mike kroutikov
 '''
+from __future__ import print_function, unicode_literals
 import codecs
 
 
