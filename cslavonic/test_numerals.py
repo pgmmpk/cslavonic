@@ -68,7 +68,7 @@ TO_TEST = [
 class TestNumerals(unittest.TestCase):
     
     def assert_good(self, num, string):
-        self.assertEqual(numeral_string(num), string)
+        self.assertEqual(numeral_string(num).replace('\xa0', ' '), string)
         self.assertEqual(numeral_parse(string), num)
 
     def test_parser_and_formatter(self):
@@ -77,7 +77,7 @@ class TestNumerals(unittest.TestCase):
             self.assert_good(num, string)
 
     def test_no_titlo(self):
-        self.assertEqual(numeral_string(11100, add_titlo=False), '҂аі р')
+        self.assertEqual(numeral_string(11100, add_titlo=False), '҂аі\xa0р')
     
     def test_other(self):
         self.assertNotEqual(numeral_string(1010), numeral_string(11000))
@@ -86,7 +86,7 @@ class TestNumerals(unittest.TestCase):
         self.assertEqual(numeral_string(11000), '҂а҃҂і')
     
     def test_crazy(self):
-        self.assertEqual(numeral_string(1234567890123), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г')
+        self.assertEqual(numeral_string(1234567890123), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г'.replace(' ', '\xa0'))
 
     def test_negative(self):
         self.assertEqual(numeral_string(-1010), '-҂а҃і')

@@ -18,6 +18,7 @@ CU_THOUSAND = '\u0482'
 CU_TITLO    = '\u0483'
 CU_TEN      = '\u0456'
 CU_800      = '\u047f'
+CU_NBSP     = '\u00a0'
 
 CU_NUMBER_ARRAY = [
     ('\u0446', 900),
@@ -89,7 +90,7 @@ def numeral_string(value, add_titlo=True):
             group = [CU_THOUSAND] * len(groups) + group
             out.append(''.join(group))
     
-    return ' '.join(out)
+    return CU_NBSP.join(out)
 
 def _insert_thousand_before_each_numeral(group):
     for i in reversed(range(1, len(group))):
