@@ -10,13 +10,13 @@ with codecs.open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='cslavonic',
-    version='0.2.0',
+    version='0.2.1',
     
     description='Utilities for working with Church Slavonic language',
     long_description=long_description,
     
     url='https://github.com/pgmmpk/cslavonic',
-    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.2.0',
+    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.2.1',
     author='Mike Kroutikov',
     author_email='pgmmpk@gmail.com',
 
