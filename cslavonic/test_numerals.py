@@ -7,7 +7,7 @@ Created on Feb 25, 2016
 from __future__ import print_function, unicode_literals
 import unittest
 import random
-from cslavonic.numerals import numeral_string, numeral_parse, _insert_titlo,\
+from cslavonic.numerals import cu_format_int, cu_parse_int, _place_titlo,\
     CU_TITLO
 from cslavonic.numerals import CU_THOUSAND
 
@@ -129,9 +129,9 @@ TO_TEST_OLD_DIALECT = [
 
 class TestNumerals(unittest.TestCase):
     
-    def assert_good(self, num, string, dialect='new'):
-        self.assertEqual(numeral_string(num, dialect=dialect).replace('\xa0', ' '), string)
-        self.assertEqual(numeral_parse(string), num)
+    def assert_good(self, num, string, dialect='standard'):
+        self.assertEqual(cu_format_int(num, dialect=dialect).replace('\xa0', ' '), string)
+        self.assertEqual(cu_parse_int(string), num)
 
     def test_parser_and_formatter(self):
         
@@ -142,63 +142,63 @@ class TestNumerals(unittest.TestCase):
             self.assert_good(num, string, dialect='old')
 
     def test_no_titlo(self):
-        self.assertEqual(numeral_string(11100, add_titlo=False).replace('\xa0', ' '), '҂аі р')
+        self.assertEqual(cu_format_int(11100, add_titlo=False).replace('\xa0', ' '), '҂аі р')
     
     def test_other(self):
-        self.assertNotEqual(numeral_string(1010), numeral_string(11000))
+        self.assertNotEqual(cu_format_int(1010), cu_format_int(11000))
         
-        self.assertEqual(numeral_string(1010), '҂а҃і')
-        self.assertEqual(numeral_string(11000), '҂а҃҂і')
+        self.assertEqual(cu_format_int(1010), '҂а҃і')
+        self.assertEqual(cu_format_int(11000), '҂а҃҂і')
 
-        self.assertEqual(numeral_string(1010, dialect='old'), '҂а҃і')
-        self.assertEqual(numeral_string(11000, dialect='old'), '҂а҃҂і')
+        self.assertEqual(cu_format_int(1010, dialect='old'), '҂а҃і')
+        self.assertEqual(cu_format_int(11000, dialect='old'), '҂а҃҂і')
     
     def test_crazy(self):
-        self.assertEqual(numeral_string(1234567890123).replace('\xa0', ' '), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г')
-        self.assertEqual(numeral_string(1234567890123, dialect='old').replace('\xa0', ' '), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿ҂чрк҃г')
+        self.assertEqual(cu_format_int(1234567890123).replace('\xa0', ' '), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г')
+        self.assertEqual(cu_format_int(1234567890123, dialect='old').replace('\xa0', ' '), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿ҂чрк҃г')
 
     def test_negative(self):
-        self.assertEqual(numeral_string(-1010), '-҂а҃і')
-        self.assertEqual(numeral_string(-1010, dialect='old'), '-҂а҃і')
+        self.assertEqual(cu_format_int(-1010), '-҂а҃і')
+        self.assertEqual(cu_format_int(-1010, dialect='old'), '-҂а҃і')
     
     def test_all_upto_10000(self):
         
         for i in range(10000):
-            j = numeral_parse(numeral_string(i))
+            j = cu_parse_int(cu_format_int(i))
             self.assertEqual(i, j)
-            j = numeral_parse(numeral_string(i, add_titlo=False))
+            j = cu_parse_int(cu_format_int(i, add_titlo=False))
             self.assertEqual(i, j)
 
     def test_all_upto_10000_dialect_old(self):
         
         for i in range(10000):
-            j = numeral_parse(numeral_string(i, dialect='old'))
+            j = cu_parse_int(cu_format_int(i, dialect='old'))
             self.assertEqual(i, j)
-            j = numeral_parse(numeral_string(i, add_titlo=False, dialect='old'))
+            j = cu_parse_int(cu_format_int(i, add_titlo=False, dialect='old'))
             self.assertEqual(i, j)
 
     def test_random(self):
 
         for _ in range(10000):
             i = random.randint(10000, 10000000)
-            j = numeral_parse(numeral_string(i))
+            j = cu_parse_int(cu_format_int(i))
             self.assertEqual(i, j)
-            j = numeral_parse(numeral_string(i, add_titlo=False))
+            j = cu_parse_int(cu_format_int(i, add_titlo=False))
             self.assertEqual(i, j)
     
     def test_random_dialect_old(self):
 
         for _ in range(10000):
             i = random.randint(10000, 10000000)
-            j = numeral_parse(numeral_string(i, dialect='old'))
+            j = cu_parse_int(cu_format_int(i, dialect='old'))
             self.assertEqual(i, j)
-            j = numeral_parse(numeral_string(i, add_titlo=False, dialect='old'))
+            j = cu_parse_int(cu_format_int(i, add_titlo=False, dialect='old'))
             self.assertEqual(i, j)
 
     def test_insert_titlo(self):
-        group = [CU_THOUSAND, 'а', CU_THOUSAND, 'і']
-        _insert_titlo(group)
-        self.assertEqual(group, [CU_THOUSAND, 'а', CU_TITLO, CU_THOUSAND, 'і'])
+        group = CU_THOUSAND + 'а' + CU_THOUSAND + 'і'
+        titlo_group = _place_titlo(group)
+        self.assertEqual(titlo_group, CU_THOUSAND + 'а' + CU_TITLO + CU_THOUSAND + 'і')
 
 
 if __name__ == '__main__':
