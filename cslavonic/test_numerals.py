@@ -9,7 +9,7 @@ import unittest
 import random
 from cslavonic.numerals import numeral_string, numeral_parse, _insert_titlo,\
     CU_TITLO
-from build.lib.cslavonic.numerals import CU_THOUSAND
+from cslavonic.numerals import CU_THOUSAND
 
 TO_TEST = [
     (0, '0҃'),
