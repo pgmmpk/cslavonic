@@ -1,5 +1,7 @@
 # Church Slavonic numbers
 
+WORK IN PROGRESS...
+
 Church Slavonic uses lowercase letters for digits:
 
 | number | digit |
