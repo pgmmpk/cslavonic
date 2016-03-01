@@ -153,7 +153,6 @@ def main_codechart(args):
             f.write("\\section{%s}\n\n" % range_name)
             numcols = int ( (len(range_) + 15) / 16 ) # number of columns
             tablestart = range_[0]
-            tablestop = tablestart + numcols * 16 - 1;
             width = max(1.05 * (numcols + 1), 4.0); 
         
             f.write("\\begin{tabu} to " + str(width) + "cm {X[r]|")

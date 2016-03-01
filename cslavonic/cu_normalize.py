@@ -81,7 +81,7 @@ def main():
     parser = argparse.ArgumentParser(description='Utilities to deal with "uk" letter in its expanded or ligature form. Use "explain" command to get more information.')
     sub = parser.add_subparsers(help='Command', dest='cmd')
     
-    parser_explain = sub.add_parser('explain', help='Prints explanation')
+    parser_explain = sub.add_parser('explain', help='Prints explanation')  # @UnusedVariable
     
     parser_ligature = sub.add_parser('ligature', help='Collapse all "sharp o"+"u" sequences into a single "uk" ligature symbol')
     parser_ligature.add_argument('input', help='Input file')
