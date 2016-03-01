@@ -55,7 +55,7 @@ CU_DIGIT_DICT = dict((a,b) for b,a in CU_NUMBER_ARRAY)
 def numeral_string(value, add_titlo=True, dialect='new'):
     
     if dialect not in ('old', 'new'):
-        raise ValueError('unknown dialect "%s", allowed dialects: ["old", "new"]' % dialect)
+        raise ValueError('unknown dialect "%s", expected one of: ["old", "new"]' % dialect)
     
     if value < 0:
         return '-' + numeral_string(-value, add_titlo=add_titlo)
@@ -145,7 +145,7 @@ def _make_groups_of_thousands(value):
 
 def _insert_titlo(group):
 
-    # need to filter out CU_THOUSAND marks
+    # need to filter out CU_THOUSAND marks when deciding on the titlo position
     digits = {}
     for i, x in enumerate(group):
         if x != CU_THOUSAND:
