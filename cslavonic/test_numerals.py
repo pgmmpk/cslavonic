@@ -142,7 +142,7 @@ class TestNumerals(unittest.TestCase):
             self.assert_good(num, string, dialect='old')
 
     def test_no_titlo(self):
-        self.assertEqual(numeral_string(11100, add_titlo=False), '҂аі\xa0р')
+        self.assertEqual(numeral_string(11100, add_titlo=False).replace('\xa0', ' '), '҂аі р')
     
     def test_other(self):
         self.assertNotEqual(numeral_string(1010), numeral_string(11000))
@@ -154,7 +154,7 @@ class TestNumerals(unittest.TestCase):
         self.assertEqual(numeral_string(11000, dialect='old'), '҂а҃҂і')
     
     def test_crazy(self):
-        self.assertEqual(numeral_string(1234567890123), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г'.replace(' ', '\xa0'))
+        self.assertEqual(numeral_string(1234567890123).replace('\xa0', ' '), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г')
         self.assertEqual(numeral_string(1234567890123, dialect='old').replace('\xa0', ' '), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿ҂чрк҃г')
 
     def test_negative(self):

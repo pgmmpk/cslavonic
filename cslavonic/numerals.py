@@ -72,13 +72,13 @@ def numeral_string(value, add_titlo=True, dialect='new'):
         if len(groups[1]) == 1:
             # merge groups 0 and 1, because only single digit in groups[1]
             groups[1].extend(groups[0])
-            groups[0].clear()
+            del groups[0][:]  # groups[0].clear() - works only in Python 3
         elif len(groups[1]) > 1 and (len(groups[0]) == 0 or dialect == 'old'):
             # force thousand symbol before every digit in groups[1]
             groups[1] = _insert_thousand_before_each_digit(groups[1])
             if dialect == 'old':
                 groups[1].extend(groups[0])
-                groups[0].clear()
+                del groups[0][:]  # groups[0].clear() - works only in Python 3
 
     if add_titlo:
         for group in groups:
