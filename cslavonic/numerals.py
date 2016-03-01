@@ -12,7 +12,7 @@ but eventually rewritten to better match the desired behavior for large numbers
 @author: mike
 '''
 from __future__ import print_function, unicode_literals
-import re
+
 
 CU_THOUSAND = '\u0482'
 CU_TITLO    = '\u0483'
@@ -52,7 +52,10 @@ CU_NUMBER_ARRAY = [
 CU_NUMBER_DICT = dict(CU_NUMBER_ARRAY)
 CU_DIGIT_DICT = dict((a,b) for b,a in CU_NUMBER_ARRAY)
 
-def numeral_string(value, add_titlo=True):
+def numeral_string(value, add_titlo=True, dialect='new'):
+    
+    if dialect not in ('old', 'new'):
+        raise ValueError('unknown dialect "%s", allowed dialects: ["old", "new"]' % dialect)
     
     if value < 0:
         return '-' + numeral_string(-value, add_titlo=add_titlo)
@@ -65,38 +68,34 @@ def numeral_string(value, add_titlo=True):
     
     groups = _make_groups_of_thousands(value)
 
-    if value < 10000:
-        group = groups[0]
-        if value >= 1000:
-            group = groups[1] + groups[0]
-        if add_titlo:
-            _insert_titlo(group)
-        if value >= 1000:
-            group.insert(0, CU_THOUSAND)
-        return ''.join(group)
-    
+    if len(groups) > 1:
+        if len(groups[1]) == 1:
+            # merge groups 0 and 1, because only single digit in groups[1]
+            groups[1].extend(groups[0])
+            groups[0].clear()
+        elif len(groups[1]) > 1 and (len(groups[0]) == 0 or dialect == 'old'):
+            # force thousand symbol before every digit in groups[1]
+            groups[1] = _insert_thousand_before_each_digit(groups[1])
+            if dialect == 'old':
+                groups[1].extend(groups[0])
+                groups[0].clear()
+
     if add_titlo:
         for group in groups:
             _insert_titlo(group)
-    
-    if not groups[0]:  # same as if (value % 1000) == 0
-        # potential ambiguity - lets insert CU_THOUSAND before each digit in groups[1]
-        _insert_thousand_before_each_numeral(groups[1])
-    
+
     out = []
     while groups:
         group = groups.pop()
         if group:
             group = [CU_THOUSAND] * len(groups) + group
             out.append(''.join(group))
-    
+
     return CU_NBSP.join(out)
 
-def _insert_thousand_before_each_numeral(group):
-    for i in reversed(range(1, len(group))):
-        if group[i] != CU_TITLO:
-            group.insert(i, CU_THOUSAND)
-    
+def _insert_thousand_before_each_digit(group):
+    return list(CU_THOUSAND.join(group))
+
 def _make_small_number(value):
     ''' generates array of characters representing small Church Slavonic
         number. No titlo.'''
@@ -146,25 +145,28 @@ def _make_groups_of_thousands(value):
 
 def _insert_titlo(group):
 
-    if len(group) == 0:
+    # need to filter out CU_THOUSAND marks
+    digits = {}
+    for i, x in enumerate(group):
+        if x != CU_THOUSAND:
+            digits[len(digits)] = i
+
+    if len(digits) == 0:
         return
 
-    elif len(group) == 1 or group[-2] == CU_800:
+    elif len(digits) == 1 or group[digits[len(digits)-2]] == CU_800:
         group.append(CU_TITLO)
 
     else:
-        group.insert(-1, CU_TITLO)
+        group.insert(digits[len(digits)-2]+1, CU_TITLO)
 
 
 def numeral_parse(string):
-    minus = False
-    
     s = string
     if string.startswith('-'):
-        minus = True
-        s = s[1:]
-    
-    s = re.sub(CU_TITLO, '', s)
+        return -numeral_parse(string[1:])
+
+    s = s.replace(CU_TITLO, '')
     
     if not s:
         raise ValueError('invalid number: ' + string)
@@ -173,60 +175,61 @@ def numeral_parse(string):
         return 0
     
     groups = s.split()
-    if len(groups) == 1:
-        val = groups[0]
+    groupinfo = [(g, _multiplier(g)) for g in groups]
 
-        multiplier = 1
-        mtc = re.match('(' + CU_THOUSAND + r'{1,})', val)
-        if mtc:
-            multiplier = 1000 ** len(mtc.group(1))
-        
-        if multiplier == 1:
-            value = _parse_small_number(val)
-        
-        elif multiplier == 1000:
-            # number between 1000 and 10000
-            val = val[1:]
-            
-            if CU_THOUSAND in val:
-                # have more marks
-                # then marks must be on every odd position
-                if not _ensure_thousand_at_every_position(val):
-                    raise ValueError('invalid number: ' + string)
-                val = re.sub(CU_THOUSAND, '', val)
-                
-                value = _parse_small_number(val) * 1000
-            else:
-                value = _parse_small_number(val[0]) * 1000 + _parse_small_number(val[1:])
-        else:
-            val = val[mtc.end():]
-            value = multiplier * _parse_small_number(val)
-    else:
-        # easy case, make sure we have desired number of thousand marks at every position
-        multiplier = [1] * len(groups)
-        for i in range(len(groups)):
-            mtc = re.match('(' + CU_THOUSAND + r'*)', groups[i])
-            if not mtc:
+    # all multipliers must be different
+    if len(set(x[1] for x in groupinfo)) != len(groupinfo):
+        raise ValueError('invalid number: ' + string)
+    
+    # multipliers should be sorted reverse
+    if sorted(groupinfo, key=lambda x: -x[1]) != groupinfo:
+            raise ValueError('invalid number: ' + string)
+
+    # special case: group with multiplier 1000 can be split (no group separators for numbers < 10000)
+    multiplier = {b: a for a,b in groupinfo}
+    if 1000 in multiplier:
+        g1, g0 = _split_thousand(multiplier[1000])
+        if 1 in multiplier:
+            # just validate
+            if len(g1) != 1:
                 raise ValueError('invalid number: ' + string)
-            multiplier[i] = 1000**len(mtc.group(1))
-            groups[i] = groups[i][mtc.end():]
-            
-            if len(mtc.group(1)) == 1:
-                if CU_THOUSAND in groups[i]:
-                    if not _ensure_thousand_at_every_position(groups[i]):
-                        raise ValueError('invalid number: ' + string)
-                    groups[i] = re.sub(CU_THOUSAND, '', groups[i])
-        
-        if len(set(multiplier)) != len(multiplier):
-            raise ValueError('invalid number: ' + string)
-        if sorted(multiplier, reverse=True) != multiplier:
-            raise ValueError('invalid number: ' + string)
-        
-        value = 0
-        for m,g in zip(multiplier, groups):
-            value += m * _parse_small_number(g)
-        
-    return -value if minus else value
+        elif g0:
+            # yes, split was successful with non-empty group g0
+            multiplier[1000] = g1
+            multiplier[1] = g0
+
+    # now we should remove thousands marks
+    multiplier = {a: b.replace(CU_THOUSAND, '') for a,b in multiplier.items()}
+    
+    # and build total value from thousand groups
+    value = sum(m*_parse_small_number(g) for m,g in multiplier.items())
+    
+    return value
+
+
+def _multiplier(group):
+    multiplier = 1
+    for c in group:
+        if c == CU_THOUSAND:
+            multiplier *= 1000
+        else:
+            break
+    return multiplier
+
+
+def _split_thousand(group):
+    assert group[0] == CU_THOUSAND
+    assert group[1] != CU_THOUSAND
+
+    # number of digits that have CU_THOUSAND prepended
+    num = sum(1 for c in group if c == CU_THOUSAND)
+    
+    assert len(group) >= 2 * num
+    assert min(group[i*2]==CU_THOUSAND for i in range(num)) == True
+    
+    group = group.replace(CU_THOUSAND, '')
+    return group[:num], group[num:]
+
 
 def _parse_small_number(val):
     
