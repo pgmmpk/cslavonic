@@ -7,7 +7,7 @@ See UTN 41 for implementation information
 http://www.unicode.org/notes/tn41/
 
 Code was based on C++ OpenOffice code by Aleksandr Andreev: https://gerrit.libreoffice.org/#/c/20013/
-but eventually rewritten to better match the desired behavior for large numbers 
+but eventually rewritten to implement more features. 
 
 @author: mike
 '''
@@ -53,6 +53,14 @@ CU_DIGIT = {b: a for a, b in CU_NUMBER.items()}
 
 
 def cu_format_int(value, add_titlo=True, dialect='standard'):
+    '''
+    Formats an integer :value: as Church Slavonic number (string).
+    
+    Parameters:
+        :value: - the value to format (an int).
+        :add_titlo: - if True (default), adds titlo.
+        :dialect: - controls how large numbers are generated. Default is "standard".
+    '''
     
     if dialect not in ('old', 'standard'):
         raise ValueError('unknown dialect "%s", expected one of: ["old", "standard"]' % dialect)
@@ -89,8 +97,9 @@ def cu_format_int(value, add_titlo=True, dialect='standard'):
     return CU_NBSP.join(out)
 
 def _format_small_number(value):
-    ''' generates string representing small Church Slavonic
-        number. No titlo.'''
+    '''
+    Deals with numbers in the range 0...999 inclusively
+    '''
     assert 0 <= value < 1000, value
 
     hundreds = (value // 100) * 100
@@ -118,11 +127,12 @@ def _format_small_number(value):
 
 
 def _format_thousand_groups(value):
-    '''returns groups of thousands as a list:
-       Decimal  123456789 is split like this:
-       123 456 789 and each group is formatted
-       as a Church Slavonic number string:
-       [ '123', '456', '783' ] (but strings are using Church Slavonic digits)
+    '''
+    Returns groups of thousands as a list:
+    
+    Decimal  123456789 is split like this:
+    123 456 789 and each group is formatted as a Church Slavonic number string:
+    [ '123', '456', '783' ] (where strings are actually using Church Slavonic digits)
     '''
     assert value >= 0
     
@@ -155,6 +165,10 @@ def _place_titlo(numstring):
 
 
 def cu_parse_int(string):
+    '''
+    Parses Church Slavonic number string. Input string can use any dialect - parser will
+    detect and handle accordingly.
+    '''
     s = string
     if string.startswith('-'):
         return -cu_parse_int(string[1:])

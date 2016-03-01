@@ -18,14 +18,14 @@ Many Church Slavonic texts are available in legacy encodings. Most prominent are
 Since there are already tools to convert from HIP to UCS [see here](http://www.orthlib.ru/hip/manual.html), we
 only need to cover UCS-to-Unicode leg.
 
-This code is inspired by [Perl converter by Alexander Andreev](https://github.com/typiconman/Perl-Lingua-CU), and
-uses its for the critical part - encoding tables. You can consider this to be a Python3 port of Alexander's work.
+This code is inspired by [Perl converter by Aleksandr Andreev](https://github.com/typiconman/Perl-Lingua-CU), and
+uses its for the critical part - encoding tables. You can consider this to be a Python3 port of Aleksandr's work.
 
 # cu_codechart
 
 Generates a XeLaTex document to test font, Use this to evaluate fonts that claim support for Church Slavonic.
 
-This is a Python3 port of [original code by Alexander Andreev](https://github.com/typiconman/fonts-cu). The only 
+This is a Python3 port of [original code by Aleksandr Andreev](https://github.com/typiconman/fonts-cu). The only 
 rationale for this port is me not willing to install Perl :)
 
 # cu_normalize
