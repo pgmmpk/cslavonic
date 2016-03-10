@@ -8,6 +8,7 @@ import argparse
 import codecs
 import re
 import sys
+from cslavonic.normalize import explode_nfd
 
 
 def main_explain(args):
@@ -66,13 +67,8 @@ def main_hyph(args):
         with codecs.open(args.output or sys.stdout.fileno(), 'w', 'utf-8') as out:
             
             for line in f:
-                # '\u1c82\u0443', '\u0479'
-                line1 = re.sub('\u1c82\u0443', '\u0479', line) 
-                line2 = re.sub('\u0479', '\u1c82\u0443', line)
-                
-                out.write(line2)
-                if line1 != line2:
-                    out.write(line1) 
+                for l in explode_nfd(line):
+                    out.write(l)
 
     return 0
 
