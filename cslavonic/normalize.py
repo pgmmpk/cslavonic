@@ -35,6 +35,7 @@ TABLE = [
 #    ('\u0478', ['\u041e\u0443']),  # UK
 #    ('\u0479', ['\u1c82\u0443', '\u043e\u0443']),  # uk
     ('\u0479', ['\u1c82\u0443']),  # uk
+    ('\u047d', ['\ua64d\u0486\u0311']), # broad omega with veliky apostrof
 ]
 
 def mk_nfd(string):
