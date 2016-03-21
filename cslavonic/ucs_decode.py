@@ -159,7 +159,7 @@ decoding_table = (
     '\u0467\u0311',  # lowercase small yus with inverted breve
     '\u0466\u0486',  # upercase small yus with psili
     '\u0456\u0483',  # the numeral ten
-    '\u0460\u0483',  # capital OMEGA with psili
+    '\u0460\u0486',  # capital OMEGA with psili
     '\u041e\u0443\u0486\u0301',  # diagraph uk with apostroph
     '\ua656\u0486\u0301',  # uppercase Iotated A with apostroph
     '\u047a\u0486\u0301',  # uppercase Round O with apostroph
