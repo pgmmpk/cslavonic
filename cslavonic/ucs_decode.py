@@ -175,7 +175,7 @@ decoding_table = (
     '\u0442\u0483',
     '\u0467\u0486',  # lowercase small yus with psili
     '\u0475\u0311',  # izhitsa with inverted breve
-    '\u0461\u0483',  # lowercase omega with psili
+    '\u0461\u0486',  # lowercase omega with psili
     '\u1c82\u0443\u0486\u0301',  # diagraph uk with apostroph
     '\ua657\u0486\u0301',  # lowercase iotaed a with apostroph
     '\u047b\u0486\u0301',  # lowercase Round O with apostroph
