@@ -3,6 +3,10 @@ Created on Mar 29, 2016
 
 Converts Julian date to Gregorian date and vv
 
+Code based on algorithms from: https://en.wikipedia.org/wiki/Julian_day
+These algorithms were adjusted to assume that before the inception of Gregorian calendar there was
+a single calendar (i.e. Gregorian calendar before Oct 5 1582 was identical to Julian.
+
 @author: mike
 '''
 
@@ -27,7 +31,7 @@ def get_julian_day(year, month, day, from_julian_date=False):
     if from_julian_date:
         jdn = day + (153 * m + 2) // 5 + 365 * y + y // 4 - 32083
     else:
-        jdn = day + (153 * m + 2) // 5 + 365 * y + y // 4 - y // 100 + y / 400 - 32045
+        jdn = day + (153 * m + 2) // 5 + 365 * y + y // 4 - y // 100 + y // 400 - 32045
     
     return jdn
 
@@ -42,7 +46,7 @@ def get_calendar(jdn, julian=False):
     g = (e % 1461) // 4
     h = 5 * g + 2
     
-    day = (h % 153) / 5 + 1
+    day = (h % 153) // 5 + 1
     month = ( h // 153 + 2 ) % 12 + 1
     year = e // 1461 - 4716 + (14 - month) // 12
     
