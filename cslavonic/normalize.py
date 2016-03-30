@@ -6,11 +6,19 @@ import unicodedata
 
 def nfd(string):
     ''' NFD-style normalization. Added upcoming Unicode 9.0 "uk" decomposition.'''
-    return re.sub('\u0479', '\u1c82\u0443', unicodedata.normalize('NFD', string))
+    string = unicodedata.normalize('NFD', string)
+    string = re.sub('\u0479', '\u1c82\u0443', string)        # uk
+    string = re.sub('\u047d', '\ua64d\u0486\u0311', string)  # broad omega with veliky apostrof
+
+    return string
 
 def nfc(string):
     ''' NFC-style normalization. Added upcoming Unicode 9.0 "uk" decomposition.'''
-    return re.sub('\u1c82\u0443', '\u0479', unicodedata.normalize('NFC', string))
+    string = unicodedata.normalize('NFC', string)
+    string = re.sub('\u1c82\u0443', '\u0479', string)        # uk
+    string = re.sub('\ua64d\u0486\u0311', '\u047d', string)  # broad omega with veliky apostrof
+
+    return string
 
 
 TABLE = [
