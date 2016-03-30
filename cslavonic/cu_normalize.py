@@ -35,10 +35,8 @@ This utility allows one to re-encode text document both ways:
    unligature - replace ligatures with two-letter sequence (bleeding-edge mode, 
               expected to be recommended by future edition of Unicode. Not all 
               fonts and software support this yet).
-   hyph - preprocesses TeX hyphenation patterns to make sure that Churc Slavonic 
-              words typed in either encoding of "uk" are hyphenated consistently.
-              It basically finds all patterns that contain "uk" and generates a p
-              air of patterns - one for each encoding. 
+   hyph - processes TeX hyphenation patterns to make sure that all possible combina tions
+              of NFC and NFD character forms are covered by pattern and exception.
 ''')
     return 0
 
