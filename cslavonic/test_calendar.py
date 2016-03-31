@@ -5,7 +5,7 @@ Created on Mar 30, 2016
 '''
 import unittest
 from cslavonic.calendar import get_julian_day, get_calendar, gregorian_to_julian,\
-    julian_to_gregorian, day_of_the_week_str
+    julian_to_gregorian, day_of_the_week_str, indiction
 
 
 class TestCalendar(unittest.TestCase):
@@ -53,3 +53,10 @@ class TestCalendar(unittest.TestCase):
 
         day = day_of_the_week_str(1, 1, 1, from_julian_date=True)
         self.assertEqual(day, 'Saturday')
+
+    def test_indiction(self):
+        indict = indiction(2016)
+        self.assertEquals(indict, 6)
+
+        indict = indiction(2010)
+        self.assertEquals(indict, 15)

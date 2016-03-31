@@ -80,6 +80,13 @@ def day_of_the_week_str(year, month, day, from_julian_date=False):
             'Friday', 
             'Saturday'][day_of_the_week(year, month, day, from_julian_date=from_julian_date)]
 
+def indiction(year):
+    i = year % 15
+    if i == 0:
+        i = 15
+    return i
+
+
 if __name__ == '__main__':
     
     jdn = get_julian_day(2016, 3, 30)
