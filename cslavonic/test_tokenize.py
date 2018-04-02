@@ -1,9 +1,4 @@
 # coding: utf-8
-'''
-Created on Feb 25, 2016
-
-@author: mike
-'''
 from __future__ import print_function, unicode_literals
 import unittest
 from cslavonic.tokenize import tokenize
