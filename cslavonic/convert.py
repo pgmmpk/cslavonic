@@ -3,6 +3,7 @@ from __future__ import print_function, unicode_literals
 
 import re
 import os
+import collections
 from cslavonic.numerals import CU_TITLO, CU_THOUSAND
 
 
@@ -50,4 +51,4 @@ def _read_untitlo_map():
             key = parts[0].replace('.', r'\b')
             yield key, parts[1]
 
-_replace_titlo = _build_replacer({key: value for key, value in _read_untitlo_map()})
+_replace_titlo = _build_replacer(collections.OrderedDict(_read_untitlo_map()))
