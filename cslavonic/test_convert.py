@@ -10,4 +10,6 @@ class TestConvert(unittest.TestCase):
 
         result = expand_titlo('ꙗ҆́кѡ да бл҃гоꙋгоди́тъ бг҃ꙋ')
 
+        print(result)
+
         self.assertEqual(result, 'ꙗ҆́кѡ да благоꙋгоди́тъ Бо́гу')

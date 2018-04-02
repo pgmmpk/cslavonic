@@ -9,7 +9,8 @@ from cslavonic.numerals import CU_TITLO, CU_THOUSAND
 
 CU_DIGIT_LETTER = '[авгдєѕзиѳіклмнѯопчрстуфхѱѿц]'
 MAYBE_DIGIT_REGEX = re.compile(
-    r'\b' + CU_THOUSAND + '{0,2}' + CU_DIGIT_LETTER + '+' + CU_TITLO + CU_DIGIT_LETTER + r'*\b', re.IGNORECASE)
+    r'\b' + CU_THOUSAND + '{0,2}' + CU_DIGIT_LETTER + '+' + CU_TITLO + CU_DIGIT_LETTER + r'*\b',
+    re.IGNORECASE+re.UNICODE)
 
 def _replace_digits(text):
     def sub(mtc):
@@ -27,8 +28,12 @@ def expand_titlo(text):
 
 def _build_replacer(mapping):
 
-    regexp = re.compile('|'.join(x.replace('.', r'\b') for x in mapping.keys()), flags=re.MULTILINE)
+    regexp = re.compile('|'.join(x.replace('.', r'\b') for x in mapping.keys()), flags=re.MULTILINE+re.UNICODE)
     values = {x.replace(r'\b', ''): y for x, y in mapping.items()}
+
+    for k in mapping.keys():
+        if k.startswith('\\bбг'):
+            print(k)
 
     def replacer(text):
         return re.sub(regexp, lambda mtc: values[mtc.group()], text)

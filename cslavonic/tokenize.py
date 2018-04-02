@@ -22,9 +22,9 @@ CU_W_REGEX = re.compile('[' +
     CU_COMBINING_ACCENTS +
     CU_SMALL_COMBINING_LETTERS +
     DIACRITICAL +
-']+', flags=re.MULTILINE)
+']+', flags=re.MULTILINE + re.UNICODE)
 
-NUMBER_REGEX = re.compile('(\d+(,\d\d\d){0,2})(\.\d+)?', re.MULTILINE)
+NUMBER_REGEX = re.compile('(\d+(,\d\d\d){0,2})(\.\d+)?', re.MULTILINE + re.UNICODE)
 
 def tokenize(text):
     '''
@@ -48,7 +48,7 @@ def tokenize(text):
 
 def _tokenize_nonletters(text):
     offset = 0
-    for mtc in re.finditer(r'\s+', text, flags=re.MULTILINE):
+    for mtc in re.finditer(r'\s+', text, flags=re.MULTILINE+re.UNICODE):
         s, e = mtc.start(), mtc.end()
         if offset < s:
             for tk in _tokenize_numbers(text[offset:s]):
