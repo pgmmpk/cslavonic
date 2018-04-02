@@ -39,10 +39,9 @@ def _res(*av):
     return os.path.join(os.path.dirname(__file__), 'resources', *av)
 
 def _read_untitlo_map():
-    with open(_res('untitlo.tsv'), 'r', encoding='utf-8') as f:
+    with open(_res('untitlo.tsv'), 'rb') as f:
         for line in f:
-            if line.startswith('.бг'):
-                print('**>', line, repr(line))
+            line = line.decode('utf-8')
             line = line.strip()
             if not line or line[0] == '#':
                 continue
