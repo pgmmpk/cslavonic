@@ -1,19 +1,16 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from os import path
+from cslavonic import __version__, __description__, __keywords__, __url__, __author__, __author_email__
 
-
-here = path.abspath(path.dirname(__file__))
 
 setup(
     name='cslavonic',
-    version='0.3.0',
-    
-    description='Utilities for working with Church Slavonic language',
-    
-    url='https://github.com/pgmmpk/cslavonic',
-    download_url='https://github.com/pgmmpk/cslavonic/tarball/0.3.0',
-    author='Mike Kroutikov',
-    author_email='pgmmpk@gmail.com',
+    version=__version__,
+    description=__description__,
+    keywords=__keywords__,
+    url=__url__,
+    author=__author__,
+    author_email=__author_email__,
 
     license='MIT',
 
@@ -29,11 +26,13 @@ setup(
         'Programming Language :: Python :: 3',
     ],
 
-    keywords='church slavonic language',
-
-    packages=['cslavonic'],
+    packages=find_packages(),
 
     install_requires=['fonttools'],
+
+    package_data={'cslavonic': ['resources/untitlo.tsv']},
+
+    include_package_data=True,
 
     entry_points={
         'console_scripts': [
