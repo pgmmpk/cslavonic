@@ -28,3 +28,9 @@ class TestConvert(unittest.TestCase):
 
         result = expand_titlo(' \u043f\u0483 ')
         self.assertEqual(result, ' 80 ')
+
+        result = expand_titlo('҂ацп҃а')
+        self.assertEqual(result, '1981')
+
+if __name__ == '__main__':
+    unittest.main()
