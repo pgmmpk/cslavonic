@@ -4,18 +4,18 @@ from __future__ import print_function, unicode_literals
 import re
 import os
 import collections
-from cslavonic.numerals import CU_TITLO, CU_THOUSAND
+from cslavonic.numerals import CU_TITLO, CU_THOUSAND, CU_NUMBER, cu_parse_int
 
 
-CU_DIGIT_LETTER = '[авгдєѕзиѳіклмнѯопчрстуфхѱѿц]'
+CU_DIGIT_LETTER = '[' + ''.join(sorted(CU_NUMBER.keys())) + ']'
 MAYBE_DIGIT_REGEX = re.compile(
-    r'\b' + CU_THOUSAND + '{0,2}' + CU_DIGIT_LETTER + '+' + CU_TITLO + CU_DIGIT_LETTER + r'*\b',
+    r'\b' + CU_THOUSAND + '{0,2}' + CU_DIGIT_LETTER + '+' + CU_TITLO + CU_DIGIT_LETTER + r'{0,3}\b',
     re.IGNORECASE+re.UNICODE)
 
 def _replace_digits(text):
     def sub(mtc):
         try:
-            return cu_parse_int(mtc.group())
+            return str(cu_parse_int(mtc.group()))
         except ValueError:
             return mtc.group()  # no changes
 
