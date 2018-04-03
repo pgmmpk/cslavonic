@@ -1,4 +1,4 @@
-__version__      = '0.4.1'
+__version__      = '0.4.2'
 __description__  = 'Utilities for working with Church Slavonic language'
 __keywords__     = 'church slavonic language'
 __url__          = 'https://github.com/pgmmpk/cslavonic'
