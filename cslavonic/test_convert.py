@@ -17,3 +17,14 @@ class TestConvert(unittest.TestCase):
         result = expand_titlo('а҃\u0456 рк҃г')
 
         self.assertEqual(result, '11 123')
+
+    def test_more_digits(self):
+
+        result = expand_titlo('\u043f\u0483')
+        self.assertEqual(result, '80')
+
+        result = expand_titlo(':\u043f\u0483.')
+        self.assertEqual(result, ':80.')
+
+        result = expand_titlo(' \u043f\u0483 ')
+        self.assertEqual(result, ' 80 ')

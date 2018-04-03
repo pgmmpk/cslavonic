@@ -7,10 +7,11 @@ import collections
 from cslavonic.numerals import CU_TITLO, CU_THOUSAND, CU_NUMBER, cu_parse_int
 
 
-CU_DIGIT_LETTER = '[' + ''.join(sorted(CU_NUMBER.keys())) + ']'
-MAYBE_DIGIT_REGEX = re.compile(
-    r'\b' + CU_THOUSAND + '{0,2}' + CU_DIGIT_LETTER + '+' + CU_TITLO + CU_DIGIT_LETTER + r'{0,3}\b',
-    re.IGNORECASE+re.UNICODE)
+CU_DIGIT_LETTER = '[' + re.escape(''.join(sorted(CU_NUMBER.keys()))) + ']'
+CU_DIGIT_LETTER_NOT = '[^' + re.escape(''.join(sorted(CU_NUMBER.keys()))) + ']'
+MAYBE_DIGIT_RE = r'\b' + CU_THOUSAND + '{0,2}' + CU_DIGIT_LETTER + '+' + CU_TITLO \
+    + CU_DIGIT_LETTER + r'*(?=' + CU_DIGIT_LETTER_NOT + '|$)'
+MAYBE_DIGIT_REGEX = re.compile(MAYBE_DIGIT_RE, re.IGNORECASE+re.UNICODE+re.MULTILINE)
 
 def _replace_digits(text):
     def sub(mtc):
