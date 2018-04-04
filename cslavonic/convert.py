@@ -16,7 +16,7 @@ MAYBE_DIGIT_REGEX = re.compile(MAYBE_DIGIT_RE, re.IGNORECASE+re.UNICODE+re.MULTI
 def _replace_digits(text):
     def sub(mtc):
         try:
-            return str(cu_parse_int(mtc.group()))
+            return str(cu_parse_int(mtc.group().lower()))
         except ValueError:
             return mtc.group()  # no changes
 
