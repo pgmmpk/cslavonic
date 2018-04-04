@@ -79,6 +79,7 @@ TO_TEST = [
 
     (1010, '҂а҃і'),
     (11000, '҂а҃҂і'),
+    (1981, '҂ацп҃а'),
 
     (1234567890123, '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г'),
     (3423000, '҂҂г҃ ҂у҂к҃҂г'),
@@ -147,13 +148,13 @@ TO_TEST_OLD_DIALECT = [
 ]
 
 class TestNumerals(unittest.TestCase):
-    
+
     def assert_good(self, num, string, dialect='standard'):
         self.assertEqual(cu_format_int(num, dialect=dialect).replace('\xa0', ' '), string)
         self.assertEqual(cu_parse_int(string), num)
 
     def test_parser_and_formatter(self):
-        
+
         for num, string in TO_TEST:
             self.assert_good(num, string)
 
@@ -162,16 +163,16 @@ class TestNumerals(unittest.TestCase):
 
     def test_no_titlo(self):
         self.assertEqual(cu_format_int(11100, add_titlo=False).replace('\xa0', ' '), '҂аі р')
-    
+
     def test_other(self):
         self.assertNotEqual(cu_format_int(1010), cu_format_int(11000))
-        
+
         self.assertEqual(cu_format_int(1010), '҂а҃і')
         self.assertEqual(cu_format_int(11000), '҂а҃҂і')
 
         self.assertEqual(cu_format_int(1010, dialect='old'), '҂а҃і')
         self.assertEqual(cu_format_int(11000, dialect='old'), '҂а҃҂і')
-    
+
     def test_crazy(self):
         self.assertEqual(cu_format_int(1234567890123).replace('\xa0', ' '), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿч҃ рк҃г')
         self.assertEqual(cu_format_int(1234567890123, dialect='old').replace('\xa0', ' '), '҂҂҂҂а҃ ҂҂҂сл҃д ҂҂фѯ҃з ҂ѿ҂чрк҃г')
@@ -179,9 +180,9 @@ class TestNumerals(unittest.TestCase):
     def test_negative(self):
         self.assertEqual(cu_format_int(-1010), '-҂а҃і')
         self.assertEqual(cu_format_int(-1010, dialect='old'), '-҂а҃і')
-    
+
     def test_all_upto_10000(self):
-        
+
         for i in range(10000):
             j = cu_parse_int(cu_format_int(i))
             self.assertEqual(i, j)
@@ -189,7 +190,7 @@ class TestNumerals(unittest.TestCase):
             self.assertEqual(i, j)
 
     def test_all_upto_10000_dialect_old(self):
-        
+
         for i in range(10000):
             j = cu_parse_int(cu_format_int(i, dialect='old'))
             self.assertEqual(i, j)
@@ -204,7 +205,7 @@ class TestNumerals(unittest.TestCase):
             self.assertEqual(i, j)
             j = cu_parse_int(cu_format_int(i, add_titlo=False))
             self.assertEqual(i, j)
-    
+
     def test_random_dialect_old(self):
 
         for _ in range(10000):
