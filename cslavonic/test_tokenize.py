@@ -29,6 +29,10 @@ class TestNumerals(unittest.TestCase):
         out = list(tokenize('ꙗ҆́кѡ да бл҃гоꙋгоди́тъ бг҃ꙋ,'))
         self.assertEqual(out, ['ꙗ҆́кѡ', ' ', 'да', ' ', 'бл҃гоꙋгоди́тъ', ' ', 'бг҃ꙋ', ','])
 
+    def test_unnormalized(self):
+        out = list(tokenize('по́мощи, нижѐ  тѧжча́йшагѡ'))
+        self.assertEqual(out, ['по́мощи', ',', ' ', 'нижѐ', '  ', 'тѧжча́йшагѡ'])
+
 
 if __name__ == '__main__':
     unittest.main()
