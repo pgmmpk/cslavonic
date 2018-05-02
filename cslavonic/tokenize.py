@@ -10,6 +10,7 @@ CU_LETTERS_UPPER = 'АБВГДЕЄЖЅЗꙀИІЇЙКЛМНОѺПРСТУꙊ
 CU_COMBINING_ACCENTS = '\u0483-\u0489'
 CU_SMALL_COMBINING_LETTERS = '\u2de0-\u2dff'
 RU_EXTRAS = 'ЭяэЙёЯЁй'  # Russian letters not in CU_LETTERS
+CU_EXTRAS = 'ЀЁЃЇЌЍЎЙйѐёѓїќѝўѶѷ'  # un-normalized forms
 ENG_LETTERS = 'a-zA-Z'
 DIACRITICAL = '\u0300-\u036f'
 
@@ -17,6 +18,7 @@ CU_W_REGEX = re.compile('[' +
     CU_LETTERS_LOWER +
     CU_LETTERS_UPPER +
     RU_EXTRAS +
+    CU_EXTRAS +
     ENG_LETTERS +
     CU_THOUSAND +
     CU_COMBINING_ACCENTS +
