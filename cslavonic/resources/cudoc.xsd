@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://ponomar.net/document"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:element name="document" minOccurs="1" maxOccurs="1" type="documentType" />
+
+  <xs:complexType name="documentType">
+      <xs:sequence>
+          <xs:choice>
+              <xs:element name="p" type="paraType" />
+              <xs:element name="section" type="sectionType" />
+          </xs:choice>
+      </xs:sequence>
+  </xs:complexType>
+</xs:schema>
