@@ -33,6 +33,9 @@ class TestNumerals(unittest.TestCase):
         out = list(tokenize('по́мощи, нижѐ  тѧжча́йшагѡ'))
         self.assertEqual(out, ['по́мощи', ',', ' ', 'нижѐ', '  ', 'тѧжча́йшагѡ'])
 
+    def test_small_letters(self):
+        out = list(tokenize('ꙗ҆́кѡ новосажᲁе́нїѧ ма̑сличнаѧ'))
+        self.assertEqual(out, ['ꙗ҆́кѡ', ' ', 'новосажᲁе́нїѧ', ' ', 'ма̑сличнаѧ'])
 
 if __name__ == '__main__':
     unittest.main()

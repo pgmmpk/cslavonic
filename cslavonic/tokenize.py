@@ -6,7 +6,7 @@ from cslavonic.numerals import CU_THOUSAND
 
 
 CU_LETTERS_LOWER = 'абвгдеєжѕзꙁиіїйклмноѻпрстуꙋфхѡѿѽꙍцчшщъыьѣюѧѫꙗѯѱѳѵѷ'
-CU_LETTERS_UPPER = 'АБВГДЕЄЖЅЗꙀИІЇЙКЛМНОѺПРСТУꙊФХѠѾѼꙌЦЧШЩЪЫЬѢЮѦѪꙖѮѰѲѴѶ\u1c82'
+CU_LETTERS_UPPER = 'АБВГДЕЄЖЅЗꙀИІЇЙКЛМНОѺПРСТУꙊФХѠѾѼꙌЦЧШЩЪЫЬѢЮѦѪꙖѮѰѲѴѶ\u1c82\u1c81'
 CU_COMBINING_ACCENTS = '\u0483-\u0489'
 CU_SMALL_COMBINING_LETTERS = '\u2de0-\u2dff'
 RU_EXTRAS = 'ЭяэЙёЯЁй'  # Russian letters not in CU_LETTERS
