@@ -37,5 +37,10 @@ class TestNumerals(unittest.TestCase):
         out = list(tokenize('ꙗ҆́кѡ новосажᲁе́нїѧ ма̑сличнаѧ'))
         self.assertEqual(out, ['ꙗ҆́кѡ', ' ', 'новосажᲁе́нїѧ', ' ', 'ма̑сличнаѧ'])
 
+    def test_greek_polytonic(self):
+        out = list(tokenize('γλωσσαλγία'))
+        self.assertEqual(out, ['γλωσσαλγία'])
+
+
 if __name__ == '__main__':
     unittest.main()
